@@ -1,0 +1,218 @@
+{
+	Tools = ordered() {
+		Zoom = MacroOperator {
+			Inputs = ordered() {
+				Input = InstanceInput {
+					SourceOp = "InZoom",
+					Source = "Input",
+				},
+				InZoom = InstanceInput {
+					SourceOp = "InZoom",
+					Source = "InZoom",
+					Page = "Controls",
+					Default = 0,
+				},
+				InScale = InstanceInput {
+					SourceOp = "InZoom",
+					Source = "Scale",
+					Page = "Controls",
+					Default = 1,
+				},
+				InFocus = InstanceInput {
+					SourceOp = "InZoom",
+					Source = "Focus",
+					Page = "Controls",
+				},
+				InStart = InstanceInput {
+					SourceOp = "InZoom",
+					Source = "Start",
+					Page = "Controls",
+				},
+				InEnd = InstanceInput {
+					SourceOp = "InZoom",
+					Source = "End",
+					Page = "Controls",
+				},
+				InDuration = InstanceInput {
+					SourceOp = "InZoom",
+					Source = "Duration",
+					Page = "Controls",
+					Default = 134,
+				},
+				OutZoom = InstanceInput {
+					SourceOp = "OutZoom",
+					Source = "OutZoom",
+					Page = "Controls",
+					Default = 0,
+				},
+				OutStart = InstanceInput {
+					SourceOp = "OutZoom",
+					Source = "Start",
+					Page = "Controls",
+					Default = 0,
+				},
+				OutEnd = InstanceInput {
+					SourceOp = "OutZoom",
+					Source = "End",
+					Page = "Controls",
+					Default = 0,
+				},
+				OutDuration = InstanceInput {
+					SourceOp = "OutZoom",
+					Source = "Duration",
+					Page = "Controls",
+					Default = 134,
+				},
+				OutScale = InstanceInput {
+					SourceOp = "OutZoom",
+					Source = "Scale",
+					Page = "Controls",
+					Default = 1,
+				},
+				Slide = InstanceInput {
+					SourceOp = "Slide",
+					Source = "Slide",
+					Page = "Controls",
+				},
+				SlideHorizontal = InstanceInput {
+					SourceOp = "Slide",
+					Source = "Horizontal",
+					Page = "Controls",
+				},
+				SlideVertical = InstanceInput {
+					SourceOp = "Slide",
+					Source = "Vertical",
+					Page = "Controls",
+				},
+				SlideFromRight = InstanceInput {
+					SourceOp = "Slide",
+					Source = "FromRight",
+					Page = "Controls",
+				},
+				SlideFromUp = InstanceInput {
+					SourceOp = "Slide",
+					Source = "FromUp",
+					Page = "Controls",
+				},
+				SlideEnter = InstanceInput {
+					SourceOp = "Slide",
+					Source = "Enter",
+					Page = "Controls",
+				},
+				SlideLeave = InstanceInput {
+					SourceOp = "Slide",
+					Source = "Leave",
+					Page = "Controls",
+				},
+				SlideDuration = InstanceInput {
+					SourceOp = "Slide",
+					Source = "Duration",
+					Page = "Controls",
+					Default = 134,
+				},
+				Background = InstanceInput {
+					SourceOp = "Merge1",
+					Source = "Background",
+				},
+				ContentMask = InstanceInput {
+					SourceOp = "InZoom",
+					Source = "EffectMask",
+				},
+				ContentBorderMask = InstanceInput {
+					SourceOp = "Merge2",
+					Source = "EffectMask",
+				},
+				TotalBorderMask = InstanceInput {
+					SourceOp = "OutZoom",
+					Source = "EffectMask",
+				}
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput {
+					SourceOp = "Merge1",
+					Source = "Output",
+				}
+			},
+			ViewInfo = GroupInfo { Pos = { 0, 0 } },
+			Tools = ordered() {
+				InZoom = Transform {
+					CtrlWZoom = false,
+					NameSet = true,
+					Inputs = {
+						Pivot = Input { Expression = "iif(InZoom == 0, Point(0.5, 0.5), Point(max((self:GetSourceTool(\"EffectMask\").Center.X - (self:GetSourceTool(\"EffectMask\").Width / 2)), min((self:GetSourceTool(\"EffectMask\").Center.X + (self:GetSourceTool(\"EffectMask\").Width / 2)), Focus.X)), max((self:GetSourceTool(\"EffectMask\").Center.Y - (self:GetSourceTool(\"EffectMask\").Height / 2)), min((self:GetSourceTool(\"EffectMask\").Center.Y + (self:GetSourceTool(\"EffectMask\").Height / 2)), Focus.Y))))", },
+						Size = Input { Expression = "iif(InZoom == 0, 1, (1 + ((Scale - 1) * ((cos(((pi * iif(InZoom == 0, 0, iif(((time - comp.RenderStart) < Start) or ((comp.RenderEnd - time) < (-End)), 0, iif((((time - comp.RenderStart) - Start) <= floor(((comp:GetPrefs(\"Comp.FrameFormat.Rate\") * Duration) / 1000))), ((1 * ((time - comp.RenderStart) - Start)) / floor(((comp:GetPrefs(\"Comp.FrameFormat.Rate\") * Duration) / 1000))), iif((((comp.RenderEnd - time) - (-End)) <= floor(((comp:GetPrefs(\"Comp.FrameFormat.Rate\") * Duration) / 1000))), ((1 * ((comp.RenderEnd - time) - (-End))) / floor(((comp:GetPrefs(\"Comp.FrameFormat.Rate\") * Duration) / 1000))), 1))))) - pi)) + 1) / 2))))", },
+						Duration = Input { Value = 134, },
+					},
+					ViewInfo = OperatorInfo { Pos = { 220, -115.5 } },
+					UserControls = ordered() { InZoom = { CBC_TriState = false, INP_Integer = false, LINKID_DataType = "Number", LINKS_Name = "In Zoom", INPID_InputControl = "CheckboxControl", ICS_ControlPage = "Controls", INP_Default = 0, }, Scale = { INP_MaxAllowed = 1000000, INP_Integer = false, INPID_InputControl = "ScrewControl", INP_MaxScale = 2, INP_Default = 1, INP_MinScale = 1, INP_MinAllowed = 1, LINKID_DataType = "Number", ICS_ControlPage = "Controls", LINKS_Name = "Scale" }, Focus = { INPID_PreviewControl = "CrosshairControl", LINKID_DataType = "Point", ICS_ControlPage = "Controls", INPID_InputControl = "OffsetControl", CHC_Style = "NormalCross", LINKS_Name = "Focus", }, Start = { INP_MaxAllowed = 1000000, INP_Integer = true, INPID_InputControl = "ScrewControl", INP_MaxScale = 500, INP_MinScale = 0, INP_MinAllowed = -1000000, LINKID_DataType = "Number", ICS_ControlPage = "Controls", LINKS_Name = "Start" }, End = { INP_MaxAllowed = 1000000, INP_Integer = true, INPID_InputControl = "ScrewControl", INP_MaxScale = 100, INP_MinScale = 0, INP_MinAllowed = -1000000, LINKID_DataType = "Number", ICS_ControlPage = "Controls", LINKS_Name = "End" }, Duration = { LINKS_Name = "Duration", INP_Integer = true, LINKID_DataType = "Number", ICS_ControlPage = "Controls", INPID_InputControl = "ScrewControl", INP_MinScale = 0, INP_MaxScale = 500, INP_Default = 0, } }
+				},
+				Merge2 = Merge {
+					Inputs = {
+						Background = Input {
+							SourceOp = "Background1",
+							Source = "Output",
+						},
+						Foreground = Input {
+							SourceOp = "InZoom",
+							Source = "Output",
+						},
+						PerformDepthMerge = Input { Value = 0, },
+					},
+					ViewInfo = OperatorInfo { Pos = { 330, -115.5 } },
+				},
+				OutZoom = Transform {
+					NameSet = true,
+					Inputs = {
+						Pivot = Input { Expression = "Point(((((BorderLength.X / ContentLength.X) * ContentCenter.X) - 0.5) / ((BorderLength.X / ContentLength.X) - 1)), ((((BorderLength.Y / ContentLength.Y) * ContentCenter.Y) - 0.5) / ((BorderLength.Y / ContentLength.Y) - 1)))", },
+						Size = Input { Expression = "iif(OutZoom == 0, 1, (1 + (((iif((ContentLength.X > ContentLength.Y), (BorderLength.X / ContentLength.X), (BorderLength.Y / ContentLength.Y)) - 1) * Scale) * ((cos(((pi * iif(OutZoom == 0, 0, iif(((time - comp.RenderStart) < Start) or ((comp.RenderEnd - time) < (-End)), 0, iif((((time - comp.RenderStart) - Start) <= floor(((comp:GetPrefs(\"Comp.FrameFormat.Rate\") * Duration) / 1000))), ((1 * ((time - comp.RenderStart) - Start)) / floor(((comp:GetPrefs(\"Comp.FrameFormat.Rate\") * Duration) / 1000))), iif((((comp.RenderEnd - time) - (-End)) <= floor(((comp:GetPrefs(\"Comp.FrameFormat.Rate\") * Duration) / 1000))), ((1 * ((comp.RenderEnd - time) - (-End))) / floor(((comp:GetPrefs(\"Comp.FrameFormat.Rate\") * Duration) / 1000))), 1))))) - pi)) + 1) / 2))))", },
+						Input = Input {
+							SourceOp = "Merge2",
+							Source = "Output",
+						},
+						ContentCenter = Input { Expression = "self:GetSourceTool(\"Input\"):GetSourceTool(\"EffectMask\").Center", },
+						ContentLength = Input { Expression = "Point(self:GetSourceTool(\"Input\"):GetSourceTool(\"EffectMask\").Width, self:GetSourceTool(\"Input\"):GetSourceTool(\"EffectMask\").Height)\n", },
+						BorderCenter = Input { Expression = "self:GetSourceTool(\"EffectMask\").Center", },
+						BorderLength = Input { Expression = "Point(self:GetSourceTool(\"EffectMask\").Width, self:GetSourceTool(\"EffectMask\").Height)", },
+					},
+					ViewInfo = OperatorInfo { Pos = { 440, -115.5 } },
+					UserControls = ordered() { OutZoom = { CBC_TriState = false, INP_Integer = false, LINKID_DataType = "Number", INP_Default = 0, ICS_ControlPage = "Controls", INPID_InputControl = "CheckboxControl", LINKS_Name = "Out Zoom", }, Start = { INP_MaxAllowed = 1000000, INP_Integer = true, INPID_InputControl = "ScrewControl", INP_MaxScale = 500, INP_Default = 0, INP_MinScale = 0, INP_MinAllowed = -1000000, LINKID_DataType = "Number", ICS_ControlPage = "Controls", LINKS_Name = "Start" }, End = { INP_MaxAllowed = 1000000, INP_Integer = true, INPID_InputControl = "ScrewControl", INP_MaxScale = 500, INP_Default = 0, INP_MinScale = 0, INP_MinAllowed = -1000000, LINKID_DataType = "Number", ICS_ControlPage = "Controls", LINKS_Name = "End" }, Duration = { INP_MaxAllowed = 1000000, INP_Integer = true, INPID_InputControl = "ScrewControl", INP_MaxScale = 500, INP_Default = 134, INP_MinScale = 0, INP_MinAllowed = -1000000, LINKID_DataType = "Number", ICS_ControlPage = "Controls", LINKS_Name = "Duration" }, ContentCenter = { LINKS_Name = "Content Center", LINKID_DataType = "Point", INPID_InputControl = "OffsetControl", ICS_ControlPage = "Controls", }, ContentLength = { LINKS_Name = "Content Length", LINKID_DataType = "Point", INPID_InputControl = "OffsetControl", ICS_ControlPage = "Controls", }, BorderCenter = { LINKS_Name = "Border Center", LINKID_DataType = "Point", INPID_InputControl = "OffsetControl", ICS_ControlPage = "Controls", }, BorderLength = { LINKS_Name = "Border Length", LINKID_DataType = "Point", INPID_InputControl = "OffsetControl", ICS_ControlPage = "Controls", }, Scale = { INP_MaxAllowed = 1, INP_Integer = false, INPID_InputControl = "SliderControl", INP_MaxScale = 1, INP_Default = 1, INP_MinScale = 0, INP_MinAllowed = 0, LINKID_DataType = "Number", ICS_ControlPage = "Controls", LINKS_Name = "Scale" } }
+				},
+				Slide = Transform {
+					NameSet = true,
+					Inputs = {
+						Center = Input { Expression = "iif(Slide== 0, Point(0.5, 0.5), Point(iif(Horizontal== 0, 0.5, (0.5 + (((-((FromRight * 2) - 1)) * ((FromRight + ((-((FromRight * 2) - 1)) * self:GetSourceTool(\"Input\").ContentCenter.X)) + (self:GetSourceTool(\"Input\").ContentLength.X / 2))) * ((((cos(((pi * TimeControl) - pi)) + 1) / 2)) - 1)))), iif(Vertical== 0, 0.5, (0.5 + (((-((FromUp * 2) - 1)) * ((FromUp + ((-((FromUp * 2) - 1)) * self:GetSourceTool(\"Input\").ContentCenter.Y)) + (self:GetSourceTool(\"Input\").ContentLength.Y / 2))) * ((((cos(((pi * TimeControl) - pi)) + 1) / 2)) - 1))))))", },
+						Size = Input { Expression = "iif(Slide == 0 or TimeControl > 0, 1, 0)", },
+						Input = Input {
+							SourceOp = "OutZoom",
+							Source = "Output",
+						},
+						TimeControl = Input { Expression = "iif(Slide == 0, 0, iif(((time - comp.RenderStart) < Enter) or ((comp.RenderEnd - time) < (-Leave)), 0, iif((((time - comp.RenderStart) - Enter) <= floor(((comp:GetPrefs(\"Comp.FrameFormat.Rate\") * Duration) / 1000))), ((1 * ((time - comp.RenderStart) - Enter)) / floor(((comp:GetPrefs(\"Comp.FrameFormat.Rate\") * Duration) / 1000))), iif((((comp.RenderEnd - time) - (-Leave)) <= floor(((comp:GetPrefs(\"Comp.FrameFormat.Rate\") * Duration) / 1000))), ((1 * ((comp.RenderEnd - time) - (-Leave))) / floor(((comp:GetPrefs(\"Comp.FrameFormat.Rate\") * Duration) / 1000))), 1))))", },
+					},
+					ViewInfo = OperatorInfo { Pos = { 550, -115.5 } },
+					UserControls = ordered() { Slide = { CBC_TriState = false, INP_Integer = false, LINKID_DataType = "Number", ICS_ControlPage = "Controls", INPID_InputControl = "CheckboxControl", LINKS_Name = "Slide", }, Horizontal = { CBC_TriState = false, INP_Integer = false, LINKID_DataType = "Number", ICS_ControlPage = "Controls", INPID_InputControl = "CheckboxControl", LINKS_Name = "Horizontal", }, Vertical = { CBC_TriState = false, INP_Integer = false, LINKID_DataType = "Number", ICS_ControlPage = "Controls", INPID_InputControl = "CheckboxControl", LINKS_Name = "Vertical", }, FromRight = { CBC_TriState = false, INP_Integer = false, LINKID_DataType = "Number", ICS_ControlPage = "Controls", INPID_InputControl = "CheckboxControl", LINKS_Name = "From Right", }, FromUp = { CBC_TriState = false, INP_Integer = false, LINKID_DataType = "Number", ICS_ControlPage = "Controls", INPID_InputControl = "CheckboxControl", LINKS_Name = "From Up", }, Enter = { INP_Integer = true, LINKID_DataType = "Number", ICS_ControlPage = "Controls", INPID_InputControl = "ScrewControl", INP_MinScale = 0, INP_MaxScale = 500, LINKS_Name = "Enter", }, Leave = { INP_Integer = true, LINKID_DataType = "Number", ICS_ControlPage = "Controls", INPID_InputControl = "ScrewControl", INP_MinScale = 0, INP_MaxScale = 500, LINKS_Name = "Leave", }, Duration = { LINKS_Name = "Duration", INP_Integer = true, LINKID_DataType = "Number", ICS_ControlPage = "Controls", INPID_InputControl = "ScrewControl", INP_MinScale = 0, INP_MaxScale = 500, INP_Default = 134, }, TimeControl = { INP_Integer = false, LINKID_DataType = "Number", ICS_ControlPage = "Controls", INPID_InputControl = "ScrewControl", LINKS_Name = "Time Control", } }
+				},
+				Merge1 = Merge {
+					Inputs = {
+						Foreground = Input {
+							SourceOp = "Slide",
+							Source = "Output",
+						},
+						PerformDepthMerge = Input { Value = 0, },
+					},
+					ViewInfo = OperatorInfo { Pos = { 550, -49.5 } },
+				},
+				Background1 = Background {
+					Inputs = {
+						Width = Input { Value = 1920, },
+						Height = Input { Value = 1080, },
+						UseFrameFormatSettings = Input { Value = 1, },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" }, },
+						TopLeftAlpha = Input { Value = 0, },
+					},
+					ViewInfo = OperatorInfo { Pos = { 330, -82.5 } },
+				}
+			},
+		}
+	},
+	ActiveTool = "Zoom"
+}
